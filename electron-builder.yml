@@ -6,10 +6,14 @@ directories:
 files:
   - main.js
   - preload.js
+  - backend_launcher.py
   - public/**/*
   - node_modules/**/*
   - package.json
   - api/**/*
+extraResources:
+  - from: api/dist/sheets-fastapi.exe
+    to: backend/sheets-fastapi.exe
 
 win:
   target:
@@ -26,8 +30,6 @@ nsis:
   createDesktopShortcut: true
   createStartMenuShortcut: true
   shortcutName: Sheets Converter
-  installerIcon: assets/icon.ico
-  uninstallerIcon: assets/icon.ico
 
 portable:
   artifactName: '${productName}-${version}.exe'

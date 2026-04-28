@@ -16,7 +16,7 @@ class Services:
             base_path = Path(env_root)
         self.base_path = base_path
         self.planilhas_path = self.base_path / "planilhas"
-        self.planilhas_path.mkdir(exist_ok=True)
+        self.planilhas_path.mkdir(parents=True, exist_ok=True)
         
         self.id_cliente = None
         self.codigo_cliente = None

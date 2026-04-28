@@ -6,9 +6,23 @@ const fs = require('fs');
 
 let mainWindow = null;
 let pythonProcess = null;
-const PYTHON_SCRIPT = path.join(__dirname, 'api', 'main.py');
 const API_URL = 'http://127.0.0.1:8001';
 const API_TIMEOUT = 30000; // 30 segundos
+const LOCAL_PYTHON = path.join(__dirname, '.venv', 'Scripts', 'python.exe');
+const BACKEND_LAUNCHER = path.join(__dirname, 'backend_launcher.py');
+const PACKAGED_BACKEND_EXE = path.join(process.resourcesPath, 'backend', 'sheets-fastapi.exe');
+
+function getPlanilhasRoot() {
+    return app.isPackaged
+        ? path.join(app.getPath('userData'), 'planilhas')
+        : path.join(__dirname, 'planilhas');
+}
+
+function ensurePlanilhasRoot() {
+    const planilhasRoot = getPlanilhasRoot();
+    fs.mkdirSync(planilhasRoot, { recursive: true });
+    return planilhasRoot;
+}
 
 function isApiRunning() {
     return new Promise((resolve) => {
@@ -46,6 +60,10 @@ async function waitForApi(maxAttempts = 6) {
 function getPythonExecutable() {
     const { execSync } = require('child_process');
     const candidates = [];
+
+    if (fs.existsSync(LOCAL_PYTHON)) {
+        candidates.push(LOCAL_PYTHON);
+    }
 
     if (process.env.SHEETS_PYTHON) {
         candidates.push(process.env.SHEETS_PYTHON);
@@ -95,6 +113,31 @@ function getPythonExecutable() {
     return null;
 }
 
+function getBackendCommand() {
+    if (app.isPackaged) {
+        if (!fs.existsSync(PACKAGED_BACKEND_EXE)) {
+            throw new Error(`Backend empacotado não encontrado em ${PACKAGED_BACKEND_EXE}`);
+        }
+
+        return {
+            command: PACKAGED_BACKEND_EXE,
+            args: [],
+            cwd: path.dirname(PACKAGED_BACKEND_EXE)
+        };
+    }
+
+    const pythonExecutable = getPythonExecutable();
+    if (!pythonExecutable) {
+        throw new Error('Python não encontrado. Instale o Python ou configure a venv local.');
+    }
+
+    return {
+        command: pythonExecutable,
+        args: [BACKEND_LAUNCHER],
+        cwd: __dirname
+    };
+}
+
 function killPortProcess(port) {
     try {
         const { execSync } = require('child_process');
@@ -120,34 +163,32 @@ function startPythonServer() {
         console.log('🚀 Iniciando servidor FastAPI...');
         
         killPortProcess(8001);
-        
-        const pythonExecutable = getPythonExecutable();
-        if (!pythonExecutable) {
-            reject(new Error('Python não encontrado. Instale o Python e as dependências do projeto.'));
-            return;
-        }
+
+        ensurePlanilhasRoot();
 
         let started = false;
         let stderrBuffer = '';
-        
-        const appDir = app.isPackaged
-            ? path.join(process.resourcesPath, 'app.asar.unpacked')
-            : __dirname;
+
+        let backendCommand;
+
+        try {
+            backendCommand = getBackendCommand();
+        } catch (error) {
+            reject(error);
+            return;
+        }
         
         try {
-            // Inicia Python a partir da raiz do projeto (sem --reload para performance)
-            const appRoot = app.isPackaged ? path.dirname(process.execPath) : __dirname;
-
-            pythonProcess = spawn(pythonExecutable, ['-m', 'uvicorn', 'api.main:app', '--host', '127.0.0.1', '--port', '8001'], {
-                cwd: appDir,
+            pythonProcess = spawn(backendCommand.command, backendCommand.args, {
+                cwd: backendCommand.cwd,
                 stdio: ['ignore', 'pipe', 'pipe'],
                 detached: false,
                 windowsHide: true,
                 shell: false,
                 env: {
                     ...process.env,
-                    PYTHONPATH: appDir,
-                    PLANILHAS_ROOT: appRoot
+                    PLANILHAS_ROOT: getPlanilhasRoot(),
+                    PYTHONUNBUFFERED: '1'
                 }
             });
 
@@ -267,7 +308,7 @@ app.on('ready', async () => {
         console.error('❌ Erro ao inicializar:', error);
         dialog.showErrorBox(
             'Erro ao Inicializar',
-            'Falha ao iniciar o servidor. Verifique se Python está instalado.'
+            'Falha ao iniciar o backend FastAPI. Verifique se o build do servidor foi gerado corretamente.'
         );
         app.quit();
     }

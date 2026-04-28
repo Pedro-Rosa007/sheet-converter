@@ -8,11 +8,12 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
-    "build": "electron-builder",
-    "build:win": "electron-builder --win --publish never",
-    "build:all": "electron-builder -mwl",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "build:api": "node scripts/build-backend.js",
+    "build": "npm run build:api && electron-builder",
+    "build:win": "npm run build:api && electron-builder --win --publish never",
+    "build:all": "npm run build:api && electron-builder -mwl",
+    "pack": "npm run build:api && electron-builder --dir",
+    "dist": "npm run build:api && electron-builder"
   },
   "dependencies": {
     "axios": "^1.6.5"
@@ -30,11 +31,18 @@
     "files": [
       "main.js",
       "preload.js",
+      "backend_launcher.py",
       "api/**/*",
       "planilhas/**/*",
       "public/**/*",
       "node_modules/**/*",
       "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "api/dist/sheets-fastapi.exe",
+        "to": "backend/sheets-fastapi.exe"
+      }
     ],
     "asarUnpack": [
       "api/**",
