@@ -19,8 +19,8 @@ Crie um arquivo `requirements.txt` na pasta `api/` com:
 ```
 fastapi==0.104.1
 uvicorn==0.24.0
-pandas==2.1.1
-openpyxl==3.10.10
+pandas==2.2.3
+openpyxl==3.1.5
 python-multipart==0.0.6
 ```
 
