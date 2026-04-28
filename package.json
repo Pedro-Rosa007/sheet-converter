@@ -1,0 +1,70 @@
+{
+  "name": "sheets-converter",
+  "version": "1.0.0",
+  "description": "Sistema de Conversão e Migração de Planilhas",
+  "main": "main.js",
+  "author": "Seu Nome",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win --publish never",
+    "build:all": "electron-builder -mwl",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "axios": "^1.6.5"
+  },
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "com.sheetsconversor.app",
+    "productName": "Sheet Conversor",
+    "directories": {
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "api/**/*",
+      "planilhas/**/*",
+      "public/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "api/**",
+      "planilhas/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Sheet Conversor"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}.exe"
+    }
+  }
+}

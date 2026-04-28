@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheets Converter - Migração de Dados</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">📊 Sheets Converter</h1>
+                <p class="tagline">Sistema de Conversão e Migração de Planilhas</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="form-container">
+                <h2>Migrar Dados da Planilha</h2>
+                <p class="form-description">
+                    Defina os mapeamentos das colunas do seu arquivo e converta para o padrão
+                </p>
+
+                <form id="formMigracao" class="migration-form">
+                    <!-- Seção: Arquivo -->
+                    <section class="form-section">
+                        <h3 class="section-title">📁 Arquivo</h3>
+                        <div class="form-group full-width">
+                            <label for="planilha_cliente">
+                                Nome da Planilha (arquivo .xlsx) *
+                                <span class="required">obrigatório</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="planilha_cliente" 
+                                class="form-input"
+                                placeholder="ex: clientes.xlsx"
+                                required
+                            >
+                        </div>
+                    </section>
+
+                    <!-- Seção: Identificadores -->
+                    <section class="form-section">
+                        <h3 class="section-title">🔑 Identificadores</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="id_cliente">ID</label>
+                                <input 
+                                    type="text" 
+                                    id="id_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: ID, ID_PRODUTO"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="codigo_cliente">Código</label>
+                                <input 
+                                    type="text" 
+                                    id="codigo_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: COD, CODIGO"
+                                >
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Seção: Informações Básicas -->
+                    <section class="form-section">
+                        <h3 class="section-title">📝 Informações Básicas</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome_cliente">Nome *</label>
+                                <input 
+                                    type="text" 
+                                    id="nome_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: NOME, PRODUTO"
+                                    required
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="descricao_cliente">Descrição</label>
+                                <input 
+                                    type="text" 
+                                    id="descricao_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: DESC, DESCRICAO"
+                                >
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Seção: Preços e Grupos -->
+                    <section class="form-section">
+                        <h3 class="section-title">💰 Preços e Grupos</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="preco_cliente">Preço *</label>
+                                <input 
+                                    type="text" 
+                                    id="preco_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: PRECO, VALOR"
+                                    required
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="grupo_cliente">Grupo</label>
+                                <input 
+                                    type="text" 
+                                    id="grupo_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: GRUPO"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="subgrupo_cliente">Subgrupo</label>
+                                <input 
+                                    type="text" 
+                                    id="subgrupo_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: SUBGRUPO"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="impressao_cliente">Local de Impressão</label>
+                                <input 
+                                    type="text" 
+                                    id="impressao_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: LOCAL_IMPRESSAO"
+                                >
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Seção: Impostos e Unidades -->
+                    <section class="form-section">
+                        <h3 class="section-title">📋 Impostos e Unidades</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ncm_cliente">NCM</label>
+                                <input 
+                                    type="text" 
+                                    id="ncm_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: NCM"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="cest_cliente">CEST</label>
+                                <input 
+                                    type="text" 
+                                    id="cest_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: CEST"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="uncompra_cliente">Unidade de Compra</label>
+                                <input 
+                                    type="text" 
+                                    id="uncompra_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: UN_COMPRA"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="unvendas_cliente">Unidade de Vendas</label>
+                                <input 
+                                    type="text" 
+                                    id="unvendas_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: UN_VENDAS"
+                                >
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Seção: Propriedades -->
+                    <section class="form-section">
+                        <h3 class="section-title">⚙️ Propriedades</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pesavel_cliente">Pesável</label>
+                                <input 
+                                    type="text" 
+                                    id="pesavel_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: PESAVEL, SIM/NAO"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="fracionado_cliente">Fracionado</label>
+                                <input 
+                                    type="text" 
+                                    id="fracionado_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: FRACIONADO, SIM/NAO"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="exportarbalanca_cliente">Exportar para Balança</label>
+                                <input 
+                                    type="text" 
+                                    id="exportarbalanca_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: EXPORTAR_BALANCA"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="classificacao_cliente">Classificação Fiscal</label>
+                                <input 
+                                    type="text" 
+                                    id="classificacao_cliente" 
+                                    class="form-input"
+                                    placeholder="ex: CLASSIFICACAO"
+                                >
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Botões -->
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-secondary">🔄 Limpar Campos</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span id="btnText">🚀 Converter Planilha</span>
+                            <span id="btnLoader" class="loader" style="display: none;"></span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Status Message -->
+                <div id="statusMessage" class="status-message" style="display: none;"></div>
+            </div>
+
+            <!-- Info Panel -->
+            <aside class="info-panel">
+                <div class="info-card">
+                    <h3>📌 Instruções</h3>
+                    <ul>
+                        <li>Coloque o arquivo .xlsx na pasta <code>planilhas/</code></li>
+                        <li>Indique o nome exato do arquivo (com extensão)</li>
+                        <li>Mapeie as colunas do seu arquivo para o padrão</li>
+                        <li>Campos com * são obrigatórios</li>
+                        <li>A migração criará um arquivo chamado <code>Planilha_migrada.xlsx</code></li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>💡 Dicas</h3>
+                    <ul>
+                        <li>Se uma coluna não existe no seu arquivo, deixe em branco</li>
+                        <li>Os nomes das colunas devem ser exatos (case-sensitive)</li>
+                        <li>O arquivo será salvo na pasta <code>planilhas/</code></li>
+                        <li>Você pode executar quantas migrações quiser</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔗 Links Úteis</h3>
+                    <ul>
+                        <li><a href="http://127.0.0.1:8001/docs" target="_blank">📖 Documentação da API</a></li>
+                        <li><a href="http://127.0.0.1:8001/redoc" target="_blank">📚 ReDoc</a></li>
+                        <li><a href="http://127.0.0.1:8001/health" target="_blank">✅ Status da API</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Sheets Converter. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

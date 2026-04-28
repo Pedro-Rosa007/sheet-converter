@@ -1,0 +1,43 @@
+appId: com.sheetsconverter.app
+productName: Sheets Converter
+directories:
+  buildResources: assets
+  output: dist
+files:
+  - main.js
+  - preload.js
+  - public/**/*
+  - node_modules/**/*
+  - package.json
+  - api/**/*
+
+win:
+  target:
+    - nsis
+    - portable
+  certificateFile: null
+  certificatePassword: null
+  signingHashAlgorithms:
+    - sha256
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Sheets Converter
+  installerIcon: assets/icon.ico
+  uninstallerIcon: assets/icon.ico
+
+portable:
+  artifactName: '${productName}-${version}.exe'
+
+linux:
+  target:
+    - AppImage
+    - deb
+
+mac:
+  target:
+    - dmg
+    - zip
