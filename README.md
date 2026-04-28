@@ -131,7 +131,7 @@ MIT
 
 ## 👨‍💻 Autor
 
-Seu Nome
+Pedro Rosa
 
 ---
 
